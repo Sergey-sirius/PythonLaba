@@ -10,7 +10,8 @@ for filename in glob.glob("./*"):
     print(filename)
 
 print("======== відкриваємо файл ==================================")
-my_file = open('1.txt','r+t')
+os.chdir('./basa/')
+my_file = open('range_group1.txt','r+t')
 
 # формується список кожна строка в
 print("======== читаємо з файлу, розділитель табуляція=============")
