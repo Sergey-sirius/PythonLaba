@@ -23,15 +23,25 @@ pathbase = 'tstbook'
 
 def word_spliter(str):
     result = []
-    word = ''
-    # chr(8212) '—' not '-'
-    for char in str:
-        if char in '-\",.;?! —' :
-            if word: result.append(word)
-            word = ''
-        else:
-            word += char
+    ignore_symbol = ['-', '"', ',', '.', ';', '?', '!', '—']
+    s2 = 'Th!i?s is, werwe                   my! s"tr,ing.'
+    str_clean = str.translate({ord(x): '' for x in ignore_symbol})
+    result = str_clean.split()
     return result
+
+def all_words(filename):
+    words = []
+    with open(filename) as file:
+        line = file.readline()
+        while line:
+            if line != '':
+                list1 = word_spliter(line)
+                for i in range(len(list1)):
+                    words.append(list1[i])
+                line = file.readline()
+
+    # return list words
+    return words
 
 
 # Головна частина
@@ -39,21 +49,24 @@ if __name__ == '__main__':
     # Данні будуть розташовані в директорії  pathbase
     os.chdir(pathbase)
 
-    #print(word_spliter("Lorem,\"ipsum;bingo.Bongo? King of Kongo."))
-    #print(toster_word_split("Lorem,\"ipsum;bingo.Bongo? King of Kongo."))
-
+    # Читаэмо файл та формуємо весь список слів які є в тексті
     list_words = []
     #f = open("palyty.txt", "r")
-
-    with open("palyty.txt") as file:
-        line = file.readline()
-        while line:
-            s=line.split("\n")
-            print(s[0])
-            if s[0] != '':
-                list_words.append(word_spliter(s[0]))
-            line = file.readline()
-
-    print("============================")
+    list_words = all_words("palyty.txt")
     print(list_words)
+    print("--------------------------------------------------------------------------------------------")
+    # 2.2. Підрахувати:
+    #    кількість слів,
+    print(f"== Загальна кількість слів в тексті === {len(list_words)} слів")
 
+    #    загальну кількість слів без повторів,
+    print(dict((x, list_words.count(x)) for x in set(list_words) if list_words.count(x) == 1))
+    print(f"кількість слів без повторів {len(dict((x, list_words.count(x)) for x in set(list_words) if list_words.count(x) == 1))} слів")
+    #    кількість унікальних слів які неповторюються
+
+
+
+
+    print(dict((x, list_words.count(x)) for x in set(list_words) if list_words.count(x) > 1))
+
+    print(dict((x, list_words.count(x)) for x in set(list_words)))
