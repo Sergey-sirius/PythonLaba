@@ -76,7 +76,6 @@ if __name__ == '__main__':
     # 2.2. Підрахувати:
     #    кількість слів,
     print(f"== Загальна кількість слів в тексті === {len(list_words)} слів")
-
     #    загальну кількість слів без повторів,
     print(dict((x, list_words.count(x)) for x in set(list_words) if list_words.count(x) == 1))
     print(f"кількість слів без повторів {len(dict((x, list_words.count(x)) for x in set(list_words) if list_words.count(x) == 1))} слів")
