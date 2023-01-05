@@ -1,4 +1,6 @@
 import csv, glob, sys, os, linecache, filecmp
+from functools import reduce
+
 
 # Task 1
 # Скласти випадкові фрази на основі трьох списків зі словами.
@@ -18,14 +20,12 @@ import csv, glob, sys, os, linecache, filecmp
 # Підрахувати частоту появи цих слів в тексті
 # Розрахувати і зробити висновок якої емоції в тексті більше
 
-# тека з файлами книг
-pathbase = 'tstbook'
-
 def word_spliter(str):
     result = []
     ignore_symbol = ['-', '"', ',', '.', ';', '?', '!', '—']
     s2 = 'Th!i?s is, werwe                   my! s"tr,ing.'
     str_clean = str.translate({ord(x): '' for x in ignore_symbol})
+    str_clean = str_clean.lower()
     result = str_clean.split()
     return result
 
@@ -46,7 +46,20 @@ def all_words(filename):
 
 # Головна частина
 if __name__ == '__main__':
-    # Данні будуть розташовані в директорії  pathbase
+
+    # тека з файлами книг
+    pathbase = 'tstbook'
+
+    #3  списка слів об'єднаних однією емоцією
+    # ['', '', '', '', '', '', '', '', '', '']
+    # ['', '', '', '', '', '', '', '', '', '']
+    # ['', '', '', '', '', '', '', '', '', '']
+    think = ['заспокійливі', 'гадаю', 'думати', 'звичка', 'почуваєте', 'користуємося', 'відхиляються', 'прийшли', 'йтиме', 'комедії']
+    actin = ['намагається', 'заворушився', 'їв', 'зустрів', 'припиніть', 'тренуванням', 'вплинути', 'відчинити', 'говорити', 'змінити']
+    baads = ['жахливим', 'холодно', 'сухий', 'поразки', 'відсталого', 'огидою', 'погано', 'блідий', 'напругою', 'прикрість']
+
+
+    # Книга розташована в директорії  pathbase
     os.chdir(pathbase)
 
     # Читаэмо файл та формуємо весь список слів які є в тексті
@@ -63,10 +76,24 @@ if __name__ == '__main__':
     print(dict((x, list_words.count(x)) for x in set(list_words) if list_words.count(x) == 1))
     print(f"кількість слів без повторів {len(dict((x, list_words.count(x)) for x in set(list_words) if list_words.count(x) == 1))} слів")
     #    кількість унікальних слів які неповторюються
-
-
-
-
     print(dict((x, list_words.count(x)) for x in set(list_words) if list_words.count(x) > 1))
-
+    #
     print(dict((x, list_words.count(x)) for x in set(list_words)))
+
+    # =============================
+    print("====== роздуми ========")
+    think_l = dict((x, list_words.count(x)) for x in set(think))
+    print(think_l)
+    print(sum(think_l.values()))
+    print("====== дія ========")
+    actin_l = dict((x, list_words.count(x)) for x in set(actin))
+    print(actin_l)
+    print(sum(actin_l.values()))
+    print("====== погане ========")
+    baads_l = dict((x, list_words.count(x)) for x in set(baads))
+    print(baads_l)
+    print(sum(baads_l.values()))
+
+
+    #if any(x == name_seek for x, *_ in list_data):
+    #    print(f"Текст знайдено в файлі {list_f[i]}")
