@@ -1,4 +1,4 @@
-import csv, glob, sys, os, linecache, filecmp
+import csv, glob, sys, os, linecache, filecmp, random
 from functools import reduce
 
 
@@ -43,31 +43,36 @@ def all_words(filename):
     # return list words
     return words
 
-
 # Головна частина
 if __name__ == '__main__':
-
+    #
+    print("========== # Task 1 ==============")
+    w_list1 = ['привіт', 'справи', 'лежить', 'як', 'біля', 'чого', 'чули', 'ви', 'десь', 'разом']
+    w_list2 = ['хто', 'бачив', 'сьогодні', 'вчора', 'позавчора', 'різдво', 'рік', 'день', 'ніч', 'вечір']
+    w_list3 = ['коня', 'барана', 'козу', 'бика', 'корову', 'ягня', 'зайця', 'кроля', 'собаку', 'кота']
+    w1 = random.randint(1, 9)
+    w2 = random.randint(1, 9)
+    w3 = random.randint(1, 9)
+    print(f"{w_list1[w1]} {w_list2[w2]} {w_list3[w3]}")
+    #
+    print("========== # Task 2 ==============")
     # тека з файлами книг
     pathbase = 'tstbook'
 
     #3  списка слів об'єднаних однією емоцією
-    # ['', '', '', '', '', '', '', '', '', '']
-    # ['', '', '', '', '', '', '', '', '', '']
-    # ['', '', '', '', '', '', '', '', '', '']
     think = ['заспокійливі', 'гадаю', 'думати', 'звичка', 'почуваєте', 'користуємося', 'відхиляються', 'прийшли', 'йтиме', 'комедії']
     actin = ['намагається', 'заворушився', 'їв', 'зустрів', 'припиніть', 'тренуванням', 'вплинути', 'відчинити', 'говорити', 'змінити']
     baads = ['жахливим', 'холодно', 'сухий', 'поразки', 'відсталого', 'огидою', 'погано', 'блідий', 'напругою', 'прикрість']
 
-
     # Книга розташована в директорії  pathbase
     os.chdir(pathbase)
 
-    # Читаэмо файл та формуємо весь список слів які є в тексті
+    # Читаємо файл та формуємо весь список слів які є в тексті
     list_words = []
-    #f = open("palyty.txt", "r")
     list_words = all_words("palyty.txt")
     print(list_words)
     print("--------------------------------------------------------------------------------------------")
+
     # 2.2. Підрахувати:
     #    кількість слів,
     print(f"== Загальна кількість слів в тексті === {len(list_words)} слів")
@@ -80,20 +85,17 @@ if __name__ == '__main__':
     #
     print(dict((x, list_words.count(x)) for x in set(list_words)))
 
-    # =============================
+    #
+    print("========== # Task 3 ==============")
     print("====== роздуми ========")
     think_l = dict((x, list_words.count(x)) for x in set(think))
-    print(think_l)
-    print(sum(think_l.values()))
+    print(f"Група 1 : {think_l}")
+    print(f"Кількість слів з групи :{sum(think_l.values())}")
     print("====== дія ========")
     actin_l = dict((x, list_words.count(x)) for x in set(actin))
-    print(actin_l)
-    print(sum(actin_l.values()))
+    print(f"Група 2 : {actin_l}")
+    print(f"Кількість слів з групи : {sum(actin_l.values())}")
     print("====== погане ========")
     baads_l = dict((x, list_words.count(x)) for x in set(baads))
-    print(baads_l)
-    print(sum(baads_l.values()))
-
-
-    #if any(x == name_seek for x, *_ in list_data):
-    #    print(f"Текст знайдено в файлі {list_f[i]}")
+    print(f"Група 3 : {baads_l}")
+    print(f"Кількість слів з групи : {sum(baads_l.values())}")
