@@ -7,7 +7,7 @@ class Word:
 
     # Відображення слова
     def __repr__(self) -> str:
-        return f"Англійське слово:{self.word_en} -> переклад: {self.translate_ru}"
+        return f"Англійське слово:{self.word_en} -> переклад: {self.translate_ru}\n"
 
 class Dictionary:
     # ініціалізація обїекту
@@ -44,11 +44,22 @@ class Dictionary:
 # ==============================================================================
 # створення бібліотеки з першим словом
 home_dict = Dictionary(Word("hello", ["привет", "ghbdtn"]))
-# додаємо друге слово в бібліотеку
+# додаємо слова в бібліотеку
 home_dict.append_word(Word("hello2", ["привет2", "sdsadad", "kkkkkkk"]))
+home_dict.append_word(Word("absolut", ["абсолютный", "абсолютный2", "абсолютный3"]))
 #
 print("==== всі додані слова з словаря =========\n",home_dict.words)
 #
 print("==== пошук в словарі англійського слова ======\n", home_dict.find_word(word_en="hello2"))
 #
 print("==== пошук в словарі по перекладу слова ======\n", home_dict.find_word(translate_ru='ghbdtn'))
+
+#
+home_dict.sort_word('word_en', True)
+print("==== всі додані слова з словаря =========\n",home_dict.words)
+
+#
+del_word = home_dict.find_word(translate_ru="привет2")
+#for del_word in word:
+home_dict.remove_word(del_word)
+print("==== всі додані слова з словаря =========\n",home_dict.words)
