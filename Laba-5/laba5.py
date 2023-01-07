@@ -37,29 +37,28 @@ class Dictionary:
                 else: words.append(word)
         return words
 
-    # сортування словника
-    def sort_word(self, option: str, reverse: bool = False):
-        self.words.sort(key=lambda word: getattr(word, option), reverse=reverse)
+
 
 # ==============================================================================
 # створення бібліотеки з першим словом
-home_dict = Dictionary(Word("hello", ["привет", "ghbdtn"]))
+home_dict = Dictionary()
 # додаємо слова в бібліотеку
-home_dict.append_word(Word("hello2", ["привет2", "sdsadad", "kkkkkkk"]))
-home_dict.append_word(Word("absolut", ["абсолютный", "абсолютный2", "абсолютный3"]))
-#
-print("==== всі додані слова з словаря =========\n",home_dict.words)
-#
-print("==== пошук в словарі англійського слова ======\n", home_dict.find_word(word_en="hello2"))
-#
-print("==== пошук в словарі по перекладу слова ======\n", home_dict.find_word(translate_ru='ghbdtn'))
+home_dict.append_word(Word("you", ["ви", "ти"]))
+home_dict.append_word(Word("nice", ["красивый", "аппетитный", "изысканый"]))
+home_dict.append_word(Word("great", ["чудово", "великий"]))
+home_dict.append_word(Word("transfer", ["передача", "пересадка"]))
+home_dict.append_word(Word("step", ["шаг", "идти"]))
 
 #
-home_dict.sort_word('word_en', True)
+print("==== всі додані слова з словаря =========\n",home_dict.words)
+#
+print("==== пошук в словарі англійського слова ======\n", home_dict.find_word(word_en="you"))
+#
+print("==== пошук в словарі по перекладу слова ======\n", home_dict.find_word(translate_ru='великий'))
+#
 print("==== всі додані слова з словаря =========\n",home_dict.words)
 
-#
-del_word = home_dict.find_word(translate_ru="привет2")
-#for del_word in word:
-home_dict.remove_word(del_word)
-print("==== всі додані слова з словаря =========\n",home_dict.words)
+print("==== пошук та видалення слова з словаря====")
+del_word = home_dict.find_word(word_en="step")
+print(del_word)
+for del_word in home_dict.words: home_dict.remove_word(del_word)
