@@ -2,7 +2,9 @@ import requests
 from bs4 import BeautifulSoup
 
 
-r = requests.get("https://news.ycombinator.com/newest")
+#r = requests.get("https://news.ycombinator.com/newest")
+r = requests.get("https://www.ukr.net")
+
 #r = requests.get("https://translate.google.com.ua/?hl=uk#en/uk/python")
 
 print(r.status_code)
