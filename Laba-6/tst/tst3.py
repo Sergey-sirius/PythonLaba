@@ -3,10 +3,10 @@ from selenium import webdriver
 
 def main():
     #
-    #driver = webdriver.Chrome()
-    #driver.get('https://www.ukr.net/news/russianaggression.html')
-    #with open('index.html','w') as file:
-    #    file.write(driver.page_source)
+    driver = webdriver.Chrome()
+    driver.get('https://www.ukr.net/news/russianaggression.html')
+    with open('index.html','w') as file:
+        file.write(driver.page_source)
 
     #th2 = driver.find_element('h2')
 

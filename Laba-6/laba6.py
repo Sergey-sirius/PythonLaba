@@ -1,6 +1,7 @@
-import requests, cloudscraper, cfscrape
+import requests, cloudscraper, cfscrape, selenium
 import undetected_chromedriver as uc
 from bs4 import BeautifulSoup
+from datetime import time
 from selenium import webdriver
 from random import choice
 
@@ -43,25 +44,58 @@ def random_headers():
 def get_html(url, useragent=None, proxy=None):
     # визначаємо який агент буде в запиті
     useragent = random_headers()
-
-    #r = requests.get(url, headers=useragent, timeout=60)
-    #scraper = cloudscraper.create_scraper(delay=10, browser="chrome")
-    #r = scraper.get(url)
-
     r = requests.get(url, headers=useragent, timeout = 60, proxies=proxy)
     result = r.text
 
     # спробуємо відкрити через wedriver якщо ресурс захищено cloudflare
     if r.status_code != 200 :
-        #print(r.status_code)
-        driver = webdriver.Chrome()
+        # запуск браузера
+        driver = webdriver.Firefox()
         driver.get(url)
         result = driver.page_source
+        # зачиняємо сторінку та браузер
+        driver.close()
+        driver.quit()
 
-    with open('index.html','w') as file:
+    # зберігаємо отрману сторінку в файл
+    with open('parsing.html','w') as file:
         file.write(result)
 
     return result
+
+# Читаємо файл в список
+def read_line(filename):
+    line_lst = []
+    with open(filename) as file:
+        line_lst = file.read().splitlines()
+
+    # return list words
+    return line_lst
+
+# ділимо речення на слова
+def word_spliter(str):
+    result = []
+    ignore_symbol = ['-', '"', ',', '.', ';', '?', '!', '—']
+    s2 = 'Th!i?s is, werwe                   my! s"tr,ing.'
+    str_clean = str.translate({ord(x): '' for x in ignore_symbol})
+    str_clean = str_clean.lower()
+    result = str_clean.split()
+    return result
+
+# формуємо список слів отриманих з файлу
+def all_words(filename):
+    words = []
+    with open(filename) as file:
+        line = file.readline()
+        while line:
+            if line != '':
+                list1 = word_spliter(line)
+                for i in range(len(list1)):
+                    words.append(list1[i])
+                line = file.readline()
+
+    # return list words
+    return words
 
 def main():
     #url = 'https://news.ycombinator.com/newest'
@@ -70,12 +104,31 @@ def main():
     #url = 'https://translate.google.com.ua/?hl=uk#en/uk/python'
 
     # 1 відкрити сторінку з новинами (будь яку)
-    text_page = get_html(url)
-    print(text_page)
-    #
+    #text_page = get_html(url)
 
     # 2 читаємо весь текст в список
+    lst = read_line('parsing.html')
+    print("Кількість строк в файлі",len(lst)+1)
+    print("===============================================================")
+
+    # формуємо файл тексту з сторінки
+    page = BeautifulSoup(open('parsing.html').read(), 'lxml')
+    print(page.text)
+    print("===============================================================")
+
+    # зберігаємо отрманий техт в файл та формуємо список слів з текста
+    with open('parsing.txt', 'w') as file:
+        file.write(page.text)
+    list_words = all_words('parsing.txt')
+    print(list_words)
+    print("===============================================================")
+
     # 3 підрахувати частоту появи слів в тексті
+    print("= 1 ==============================================================")
+    print(f"== Загальна кількість слів в тексті === {len(list_words)} слів")
+    print("= 2 Частота появи слів ===========================================")
+    print(dict((x, list_words.count(x)) for x in set(list_words)))
+
     # 4 підрахувати кількість html-тегів
     # 5 підрахувати кількість посиланнь
     # 6 підрахувати кількість зображень

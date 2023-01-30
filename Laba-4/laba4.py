@@ -20,15 +20,16 @@ from functools import reduce
 # Підрахувати частоту появи цих слів в тексті
 # Розрахувати і зробити висновок якої емоції в тексті більше
 
+# ділимо речення на слова
 def word_spliter(str):
     result = []
     ignore_symbol = ['-', '"', ',', '.', ';', '?', '!', '—']
-    s2 = 'Th!i?s is, werwe                   my! s"tr,ing.'
     str_clean = str.translate({ord(x): '' for x in ignore_symbol})
     str_clean = str_clean.lower()
     result = str_clean.split()
     return result
 
+# формуємо список слів отриманих з файлу
 def all_words(filename):
     words = []
     with open(filename) as file:
