@@ -8,22 +8,22 @@ from random import choice
 
 
 html_tag =[
-    '<!--...-->', '<a>', '<abbr>','<address>', '<applet>', '<area>', '<article>',
-    '<aside>', '<audio>', '<b>', '<base>', '<basefont>', '<bdo>', '<big>',
-    '<blockquote>', '<body>', '<br>', '<button>', '<canvas>', '<caption>', '<center>',
-    '<cite>', '<code>', '<col>', '<colgroup>', '<datalist>', '<dd>', '<del>',
-    '<details>', '<dfn>', '<dialog>', '<dir>', '<div>', '<dl>', '<!DOCTYPE>',
-    '<dt>', '<em>', '<embed>', '<fieldset>', '<figcaption>', '<figure>', '<font>', '<footer>',
-    '<form>', '<frame>', '<frameset>', '<h1>', '<h2>', '<h3>', '<h4>', '<h5>', '<h6>',
-    '<head>', '<header>', '<hgroup>', '<hr>', '<html>', '<i>', '<iframe>', '<img>',
-    '<input>', '<ins>', '<kbd>', '<keygen>', '<label>', '<legend>', '<li>', '<link>',
-    '<main>', '<map>', '<mark>', '<menu>', '<menuitem>', '<meta>', '<meter>', '<nav>',
-    '<noscript>', '<object>', '<ol>', '<optgroup>', '<option>', '<output>', '<p>',
-    '<param>', '<picture>', '<pre>', '<progress>', '<q>', '<rp>', '<rt>', '<ruby>',
-    '<s>', '<samp>', '<script>', '<section>', '<select>', '<small>', '<source>',
-    '<span>', '<strike>', '<strong>', '<style>', '<sub>', '<summary>', '<sup>', '<table>',
-    '<tbody>', '<td>', '<textarea>', '<tfoot>', '<th>', '<thead>', '<time>', '<title>',
-    '<tr>', '<track>', '<tt>', '<u>', '<ul>', '<var>', '<video>', '<wbr>'
+    '!--...--', 'a', 'abbr','address', 'applet', 'area', 'article',
+    'aside', 'audio', 'b', 'base', 'basefont', 'bdo', 'big',
+    'blockquote', 'body', 'br', 'button', 'canvas', 'caption', 'center',
+    'cite', 'code', 'col', 'colgroup', 'datalist', 'dd', 'del',
+    'details', 'dfn', 'dialog', 'dir', 'div', 'dl', '!DOCTYPE',
+    'dt', 'em', 'embed', 'fieldset', 'figcaption', 'figure', 'font', 'footer',
+    'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+    'head', 'header', 'hgroup', 'hr', 'html', 'i', 'iframe', 'img',
+    'input', 'ins', 'kbd', 'keygen', 'label', 'legend', 'li', 'link',
+    'main', 'map', 'mark', 'menu', 'menuitem', 'meta', 'meter', 'nav',
+    'noscript', 'object', 'ol', 'optgroup', 'option', 'output', 'p',
+    'param', 'picture', 'pre', 'progress', 'q', 'rp', 'rt', 'ruby',
+    's', 'samp', 'script', 'section', 'select', 'small', 'source',
+    'span', 'strike', 'strong', 'style', 'sub', 'summary', 'sup', 'table',
+    'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'time', 'title',
+    'tr', 'track', 'tt', 'u', 'ul', 'var', 'video', 'wbr'
 ]
 
 desktop_agents = ['Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36',
@@ -76,7 +76,6 @@ def read_line(filename):
 def word_spliter(str):
     result = []
     ignore_symbol = ['-', '"', ',', '.', ';', '?', '!', '—']
-    s2 = 'Th!i?s is, werwe                   my! s"tr,ing.'
     str_clean = str.translate({ord(x): '' for x in ignore_symbol})
     str_clean = str_clean.lower()
     result = str_clean.split()
@@ -97,26 +96,27 @@ def all_words(filename):
     # return list words
     return words
 
-def main():
-    #url = 'https://news.ycombinator.com/newest'
-    #url = 'https://www.ukr.net'
-    url = 'https://www.ukr.net/news/russianaggression.html'
-    #url = 'https://translate.google.com.ua/?hl=uk#en/uk/python'
+def main(url):
 
     # 1 відкрити сторінку з новинами (будь яку)
-    #text_page = get_html(url)
+    print("= 1 ===========================================================")
+    text_page = get_html(url)
+    print("===============================================================")
 
     # 2 читаємо весь текст в список
+    print("= 2 ===========================================================")
     lst = read_line('parsing.html')
     print("Кількість строк в файлі",len(lst)+1)
     print("===============================================================")
 
     # формуємо файл тексту з сторінки
+    print("= 3 ===========================================================")
     page = BeautifulSoup(open('parsing.html').read(), 'lxml')
     print(page.text)
     print("===============================================================")
 
     # зберігаємо отрманий техт в файл та формуємо список слів з текста
+    print("= 4 ===========================================================")
     with open('parsing.txt', 'w') as file:
         file.write(page.text)
     list_words = all_words('parsing.txt')
@@ -124,15 +124,46 @@ def main():
     print("===============================================================")
 
     # 3 підрахувати частоту появи слів в тексті
-    print("= 1 ==============================================================")
+    print("= 5 ==============================================================")
     print(f"== Загальна кількість слів в тексті === {len(list_words)} слів")
     print("= 2 Частота появи слів ===========================================")
     print(dict((x, list_words.count(x)) for x in set(list_words)))
+    print("===============================================================")
 
     # 4 підрахувати кількість html-тегів
+    print("= 6 ============================================================")
+    for tag in html_tag:
+        count_tag = len(page.find_all(tag))
+        if count_tag != 0:
+            print("Html tag -> ", tag, "кол-во тегов:", count_tag)
+    print("===============================================================")
+
     # 5 підрахувати кількість посиланнь
+    print("= 7 ============================================================")
+    links = page.find_all('a')
+    print("Кількість посилань: ", len(page.find_all('a')))
+    for a in links:
+        print(a.get('href'))
+    print("===============================================================")
+
     # 6 підрахувати кількість зображень
+    print("= 8 ============================================================")
+    links = page.find_all('img')
+    print("Кількість посилань: ", len(page.find_all('img')))
+    for a in links:
+        print(a.get('src'))
+    print("===============================================================")
 
 
 if __name__ == '__main__':
-    main()
+    url1 = 'https://news.ycombinator.com/newest'
+    url2 = 'https://www.ukr.net'
+    url3 = 'https://www.ukr.net/news/russianaggression.html'
+
+    main(url1)
+    print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+    main(url2)
+    print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+    main(url3)
+    print("|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
+
