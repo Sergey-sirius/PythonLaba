@@ -7,6 +7,9 @@ def f(t):
     return t**2*exp(-t**2)
 
 def main():
+
+    # http://acm.mipt.ru/twiki/bin/view/Cintro/PythonGraphs#_qp__cp___k_h_pmekk_numpy
+
     # --------- 1
     plt.plot([1, 2, 3, 4])
     plt.show()
