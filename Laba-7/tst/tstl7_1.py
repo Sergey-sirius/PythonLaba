@@ -10,7 +10,7 @@ def main():
 
     # http://acm.mipt.ru/twiki/bin/view/Cintro/PythonGraphs#_qp__cp___k_h_pmekk_numpy
 
-    # --------- 1
+    # --------- 1 линейный график
     plt.plot([1, 2, 3, 4])
     plt.show()
     print("===============================================================")
