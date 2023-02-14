@@ -6,6 +6,9 @@ from numpy import *
 def f(t):
     return t**2*exp(-t**2)
 
+def find_all_char(text, symb):
+    return [i for i, letter in enumerate(text) if letter == symb]
+
 def main():
 
     # http://acm.mipt.ru/twiki/bin/view/Cintro/PythonGraphs#_qp__cp___k_h_pmekk_numpy
@@ -62,6 +65,10 @@ def main():
                 't^6*exp(-t^2)'],
                loc='upper left')
     plt.show()
+
+    #
+    text = 'sddsfdsfdsf.dsfsdfdsf dsfdsfdf. ghfghfg... gfhdfg. fghdfhg ?'
+    print(find_all_char(text, '.'))
 
     # ---------- 6
     xdata = [0, 1, 2, 4, 5, 8]
